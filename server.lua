@@ -12,7 +12,6 @@ local function isPlayerWhitelisted(player)
 end
 
 RegisterNetEvent('hud:server:GainStress', function(amount)
-    print('hello', amount)
     if not Config.Stress.enable then return end
     local src = source
     local player = exports['orbit-lib']:GetPlayer(src)
