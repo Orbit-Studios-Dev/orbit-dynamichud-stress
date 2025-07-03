@@ -91,7 +91,6 @@ CreateThread(function()
                 TriggerScreenblurFadeOut(1000.0)
             end
         elseif stress >= Config.Stress.minForShaking then
-            print('helloooo')
             local blurIntensity = getBlurIntensity(stress)
             TriggerScreenblurFadeIn(1000.0)
             Wait(blurIntensity)
