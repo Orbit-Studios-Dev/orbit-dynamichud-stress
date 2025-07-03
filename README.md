@@ -11,7 +11,8 @@ I generally use qbx and like the stress system, therefore I've decided to use th
 
 ## Requirements
 - ox_lib
-- orbit-dynamichud
+- orbit-lib (For Job Check)
+- orbit-dynamichud (Tailored for this hud)
 
 This resource is provided as it is and no support is provided.
 
