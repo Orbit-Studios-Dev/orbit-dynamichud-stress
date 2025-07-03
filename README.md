@@ -23,5 +23,5 @@ local stress = LocalPlayer.state.stress or 0
 ```
 ### Setting Stress (Server-Side Export)
 ```lua
-exports[orbit-dynamichud-stress]:setStress(source, amount)
+exports['orbit-dynamichud-stress']:setStress(source, amount)
 ```
