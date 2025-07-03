@@ -5,7 +5,7 @@ local stress = playerState.stress or 0
 local function setStress(amount)
     local state = LocalPlayer.state
     if not state then return end
-    state:set("stress", (state.stress or 0) + amount, true)
+    state:set("stress", amount, true)
 end
 
 RegisterNetEvent('stress:client:setStress', function(amount)
