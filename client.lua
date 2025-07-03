@@ -65,7 +65,7 @@ end
 
 CreateThread(function()
     while true do
-        stress = playerState.stress
+        local stress = playerState.stress
         local effectInterval = getEffectInterval(stress)
         if stress >= 100 then
             local blurIntensity = getBlurIntensity(stress)
