@@ -2,6 +2,7 @@ Config = {}
 Config.Stress = {
     enable = true,
     chance = 0.1, -- Percentage stress chance when shooting (0-1)
+    stressSpeedFormat = 'kmh', -- Can be kmh or mph
     minForShaking = 50, -- Minimum stress level for screen shaking
     minForSpeeding = 1000, -- Minimum stress level for speeding while buckled
     minForSpeedingUnbuckled = 50, -- Minimum stress level for speeding while unbuckled

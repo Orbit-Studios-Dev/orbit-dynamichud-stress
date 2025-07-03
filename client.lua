@@ -1,10 +1,24 @@
 -- CREDITS TO QBX_HUD FOR STRESS SYSTEM
+local playerState = LocalPlayer.state
+local stress = playerState.stress or 0
 
-if Config.Stress.enable then
-    CreateThread(function() -- Speeding
-        while true do
-            if LocalPlayer.state.isLoggedIn then
-                if cache.vehicle then
+local function setStress(amount)
+    local state = LocalPlayer.state
+    if not state then return end
+    state:set("stress", (state.stress or 0) + amount, true)
+end
+
+RegisterNetEvent('stress:client:setStress', function(amount)
+    setStress(amount)
+end)
+
+local speedMultiplier = Config.Stress.stressSpeedFormat == 'mph' and 2.23694 or 3.6
+
+local function vehicleStressThread()
+    if Config.Stress.enable then
+        CreateThread(function() -- Speeding
+            while cache.vehicle do
+                if LocalPlayer.state.isLoggedIn then
                     local vehClass = GetVehicleClass(cache.vehicle)
                     local speed = GetEntitySpeed(cache.vehicle) * speedMultiplier
 
@@ -20,11 +34,16 @@ if Config.Stress.enable then
                         end
                     end
                 end
+                Wait(10000)
             end
-            Wait(10000)
-        end
-    end)
+        end)
+    end
 end
+
+lib.onCache("vehicle", function(vehicle)
+  if not vehicle then return end
+  vehicleStressThread()
+end)
 
 local function getBlurIntensity(stresslevel)
     for _, v in pairs(Config.Stress.blurIntensity) do
@@ -78,4 +97,35 @@ CreateThread(function()
         end
         Wait(effectInterval)
     end
+end)
+
+local function isWhitelistedWeaponStress(weapon)
+    if weapon then
+        for _, v in pairs(Config.Stress.whitelistedWeapons) do
+            if weapon == v then
+                return true
+            end
+        end
+    end
+    return false
+end
+
+local function startWeaponStressThread(weapon)
+    if isWhitelistedWeaponStress(GetEntityModel(weapon)) then return end
+
+    CreateThread(function()
+        while cache.weapon do
+            if IsPedShooting(cache.ped) then
+                if math.random() <= Config.Stress.chance then
+                    TriggerServerEvent('hud:server:GainStress', math.random(1, 5))
+                end
+            end
+            Wait(0)
+        end
+    end)
+end
+
+lib.onCache("weapon", function(weapon)
+  if not weapon then return end
+  startWeaponStressThread(weapon)
 end)

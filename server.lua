@@ -15,17 +15,17 @@ RegisterNetEvent('hud:server:GainStress', function(amount)
     if not Config.Stress.enable then return end
 
     local src = source
-    local player = exports['orbit-lib']:GetPlayer(src)
+    local stress = Player(src)?.state?.stress or 0
     local newStress
     if isPlayerWhitelisted(player.PlayerData) then
         -- Player is whitelisted
         return
     end
     if not resetStress then
-        if not player.PlayerData.metadata.stress then
-            player.PlayerData.metadata.stress = 0
+        if not stress then
+            stress = 0
         end
-        newStress = player.PlayerData.metadata.stress + amount
+        newStress = stress + amount
         if newStress <= 0 then newStress = 0 end
     else
         newStress = 0
@@ -33,8 +33,7 @@ RegisterNetEvent('hud:server:GainStress', function(amount)
     if newStress > 100 then
         newStress = 100
     end
-    player.Functions.SetMetaData('stress', newStress)
-    TriggerClientEvent('hud:client:UpdateStress', src, newStress)
+    Player(src)?.state:set("stress", newStress, true)
     -- exports.qbx_core:Notify(src, locale('notify.stress_gain'), 'inform', 2500, nil, nil, {'#141517', '#ffffff'}, 'brain', '#C53030')
 end)
 
@@ -42,14 +41,13 @@ RegisterNetEvent('hud:server:RelieveStress', function(amount)
     if not Config.Stress.enable then return end
 
     local src = source
-    local player = exports['orbit-lib']:GetPlayer(src)
+    local stress = Player(src)?.state?.stress or 0
     local newStress
-    if not player then return end
     if not resetStress then
-        if not player.PlayerData.metadata.stress then
-            player.PlayerData.metadata.stress = 0
+        if not stress then
+            stress = 0
         end
-        newStress = player.PlayerData.metadata.stress - amount
+        newStress = stress - amount
         if newStress <= 0 then newStress = 0 end
     else
         newStress = 0
@@ -57,7 +55,12 @@ RegisterNetEvent('hud:server:RelieveStress', function(amount)
     if newStress > 100 then
         newStress = 100
     end
-    player.Functions.SetMetaData('stress', newStress)
-    TriggerClientEvent('hud:client:UpdateStress', src, newStress)
+    Player(src)?.state:set("stress", newStress, true)
     -- exports.qbx_core:Notify(src, locale('notify.stress_removed'), 'inform', 2500, nil, nil, {'#141517', '#ffffff'}, 'brain', '#0F52BA')
 end)
+
+local function setStress(source, amount)
+    TriggerClientEvent('stress:client:setStress', source, amount)
+end
+
+exports('setStress', setStress)
