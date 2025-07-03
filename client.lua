@@ -65,6 +65,7 @@ end
 
 CreateThread(function()
     while true do
+        stress = playerState.stress
         local effectInterval = getEffectInterval(stress)
         if stress >= 100 then
             local blurIntensity = getBlurIntensity(stress)
@@ -90,6 +91,7 @@ CreateThread(function()
                 TriggerScreenblurFadeOut(1000.0)
             end
         elseif stress >= Config.Stress.minForShaking then
+            print('helloooo')
             local blurIntensity = getBlurIntensity(stress)
             TriggerScreenblurFadeIn(1000.0)
             Wait(blurIntensity)
