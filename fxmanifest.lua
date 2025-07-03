@@ -6,7 +6,8 @@ description 'Stress Addon for Orbit Studios Dynamic Hud'
 version '0.0.1'
 
 shared_script {
-    'config.lua'
+    'config.lua',
+    '@ox_lib/init.lua'
 }
 
 client_scripts {
@@ -15,4 +16,8 @@ client_scripts {
 
 server_scripts {
     'server.lua',
+}
+
+ox_libs {
+    'cache',
 }
