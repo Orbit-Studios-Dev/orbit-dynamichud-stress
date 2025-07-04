@@ -21,7 +21,9 @@ This resource is provided as it is and no support is provided.
 ```lua
 local stress = LocalPlayer.state.stress or 0
 ```
-### Setting Stress (Server-Side Export)
+### Setting Stress (State handling)
 ```lua
-exports['orbit-dynamichud-stress']:setStress(source, amount)
+local src = source
+local value = stressLevel
+Player(src)?.state:set("stress", value, true)
 ```
