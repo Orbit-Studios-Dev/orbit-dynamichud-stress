@@ -58,9 +58,3 @@ RegisterNetEvent('hud:server:RelieveStress', function(amount)
     Player(src)?.state:set("stress", newStress, true)
     -- exports.qbx_core:Notify(src, locale('notify.stress_removed'), 'inform', 2500, nil, nil, {'#141517', '#ffffff'}, 'brain', '#0F52BA')
 end)
-
-local function setStress(source, amount)
-    TriggerClientEvent('stress:client:setStress', source, amount)
-end
-
-exports('setStress', setStress)
