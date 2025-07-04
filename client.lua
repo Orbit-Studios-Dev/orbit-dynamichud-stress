@@ -1,16 +1,5 @@
 -- CREDITS TO QBX_HUD FOR STRESS SYSTEM
 local playerState = LocalPlayer.state
-local stress = playerState.stress or 0
-
-local function setStress(amount)
-    local state = LocalPlayer.state
-    if not state then return end
-    state:set("stress", amount, true)
-end
-
-RegisterNetEvent('stress:client:setStress', function(amount)
-    setStress(amount)
-end)
 
 local speedMultiplier = Config.Stress.stressSpeedFormat == 'mph' and 2.23694 or 3.6
 
@@ -65,6 +54,7 @@ end
 
 CreateThread(function()
     while true do
+        Wait(100)
         local stress = playerState.stress
         local effectInterval = getEffectInterval(stress)
         if stress >= 100 then
@@ -96,7 +86,7 @@ CreateThread(function()
             Wait(blurIntensity)
             TriggerScreenblurFadeOut(1000.0)
         end
-        Wait(effectInterval)
+        Wait(effectInterval - 100)
     end
 end)
 
